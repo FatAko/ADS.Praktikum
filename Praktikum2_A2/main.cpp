@@ -10,12 +10,6 @@
 
 using namespace std;
 
-
-///////////////////////////////////////
-// Hilfsmethoden fürs Menü hier:
-
-
-
 /***************************
  ** Vorgegebene  Funktion **
  ***************************
@@ -56,17 +50,18 @@ void mainscreen_addTreeCSV(Tree*& ref)
     }
 }
 
-//
-///////////////////////////////////////
 int main()
 {
     int result = Catch::Session().run();
+
+    Tree* baum = new Tree();
+    string name = "", eingabe = "";
+    int alter = 0, plz = 0, orderID = 0;
+    double einkommen = 0.0;
+
     cout << "====================================" << endl;
     cout << "ADS-Praktikum 2.2" << endl;
     cout << "====================================" << endl;
-    int eingabe = 0, alter = 0, plz = 0, orderID = 0;
-    string name = "";
-    double einkommen = 0.0;
     cout << "1) Datensatz einfuegen, manuell" << endl;
     cout << "2) Datensatz einfuegen, CSV Import" << endl;
     cout << "3) Datensatz loeoschen" << endl;
@@ -75,63 +70,54 @@ int main()
     cout << "6) Beenden" << endl;
     cout << "?>" << endl;
     cout << endl;
-    Tree* baum = new Tree();
+
     while (true)
     {
         vector<TreeNode> liste;
         cout << "?> ";
         cin >> eingabe;
-        switch (eingabe)
+        if (eingabe == "1")
         {
-        case 1:
             cout << "+ Bitte geben Sie den Datensatz ein" << endl;
-            cout << "Name ?> ";
-            cin >> name;
-            cout << "Alter ?> ";
-            cin >> alter;
-            cout << "Einkommen ?> ";
-            cin >> einkommen;
-            cout << "PLZ ?> ";
-            cin >> plz;
+            cout << "Name ?> "; cin >> name;
+            cout << "Alter ?> "; cin >> alter;
+            cout << "Einkommen ?> "; cin >> einkommen;
+            cout << "PLZ ?> "; cin >> plz;
             baum->addNode(name, alter, einkommen, plz);
-            cout << "+ Ihr Datensatz wurde eingefuegt" << endl;
-            cout << endl;
-            break;
-        case 2:
+            cout << "+ Ihr Datensatz wurde eingefuegt" << endl; cout << endl;
+        }
+        else if (eingabe == "2")
+        {
             mainscreen_addTreeCSV(baum);
-            break;
-        case 3:
+            cout << endl;
+        }
+        else if (eingabe == "3")
+        {
             cout << "+ Bitte geben Sie den zu loeschenden Datensatz an" << endl;
-            cout << "?> ";
-            cin >> orderID;
+            cout << "?> "; cin >> orderID;
             baum->deleteNode(orderID);
-            cout << "+ Datensatz wurde geloescht." << endl;
-            break;
-        case 4:
+            cout << "+ Datensatz wurde geloescht." << endl; cout << endl;
+        }
+        else if (eingabe == "4")
+        {
             cout << "+ Bitte geben Sie den zu suchenden Datensatz an" << endl;
             cout << "Name ?> ";
             cin >> name;
             liste = baum->getNodes(name);
             printNodeList(liste);
-            cout << endl;
-            cout << endl;
-            cout << endl;
-            //testtttt
-            break;
-        case 5:
-            baum->printAll();
-            cout << endl;
-            cout << endl;
-            break;
-        case 6:
-            break;
-        default:
-            break;
+            cout << endl; cout << endl;
         }
+        else if (eingabe == "5")
+        {
+            cout << "ID | Name | Age | Income | PostCode | OrderID" << endl;
+            cout << "---+------------+-------+-----------+-------+-------" << endl;
+            baum->printAll();
+            cout << endl; cout << endl;
+        }
+        else if (eingabe == "6")
+            break;
     }
-    
     system("PAUSE");
-
     return 0;
 }
 

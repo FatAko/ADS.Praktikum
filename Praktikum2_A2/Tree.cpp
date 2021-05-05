@@ -236,14 +236,12 @@ void Tree::printAll() {
 	printAllPreOrder(ptr1);
 }
 void printAllPreOrder(TreeNode* ptr1) {
-	if (ptr1 != nullptr) {//Wurzel
+	if (ptr1 != nullptr) {
 		cout << setw(3) << ptr1->getNodeChronologicalID() << "|" << setw(12) << ptr1->getName() << "|" << setw(7) << ptr1->getAge() << "|" << setw(11)
 			 << ptr1->getIncome() << "|" << setw(7) << ptr1->getPostCode() << "|" << setw(0) << ptr1->getNodeOrderID() << endl;
 
-		// (ptr1->getLeft() != nullptr) //linker Teilbaum
 		printAllPreOrder(ptr1->getLeft());
 
-		// (ptr1->getRight() != nullptr) //rechter Teilbaum
 		printAllPreOrder(ptr1->getRight());
 	}
 }
