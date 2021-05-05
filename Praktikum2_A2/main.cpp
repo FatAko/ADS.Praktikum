@@ -115,6 +115,7 @@ int main()
             printNodeList(liste);
             cout << endl;
             cout << endl;
+            cout << endl;
             break;
         case 5:
             baum->printAll();
