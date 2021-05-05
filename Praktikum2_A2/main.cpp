@@ -105,6 +105,10 @@ int main()
             cin >> name;
             liste = baum->getNodes(name);
             printNodeList(liste);
+            if (liste.empty())
+            {
+                cout << "+ Datensatz wurde nicht gedunden." << endl;
+            }
             cout << endl; cout << endl;
         }
         else if (eingabe == "5")
