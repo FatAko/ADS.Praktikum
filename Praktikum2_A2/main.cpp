@@ -95,26 +95,38 @@ int main()
         {
             cout << "+ Bitte geben Sie den zu loeschenden Datensatz an" << endl;
             cout << "?> "; cin >> orderID;
-            baum->deleteNode(orderID);
-            cout << "+ Datensatz wurde geloescht." << endl; cout << endl;
+            if (baum->searchOrderID(orderID))
+            {
+                baum->deleteNode(orderID);
+                cout << "+ Datensatz wurde geloescht." << endl; cout << endl;
+            }
+            else
+            {
+                cout << "+ Fehler!" << endl;
+                break;
+            }
         }
         else if (eingabe == "4")
         {
             cout << "+ Bitte geben Sie den zu suchenden Datensatz an" << endl;
             cout << "Name ?> ";
             cin >> name;
-            liste = baum->getNodes(name);
-            printNodeList(liste);
-            if (liste.empty())
+            if (baum->searchNode(name) == true)
+            {
+                liste = baum->getNodes(name);
+                printNodeList(liste);
+            }
+            else
             {
                 cout << "+ Datensatz wurde nicht gedunden." << endl;
+                cout << "+ Fehler!" << endl;
+                cout << endl; cout << endl;
+                break;
             }
-            cout << endl; cout << endl;
         }
         else if (eingabe == "5")
         {
-            cout << "ID | Name | Age | Income | PostCode | OrderID" << endl;
-            cout << "---+------------+-------+-----------+-------+-------" << endl;
+
             baum->printAll();
             cout << endl; cout << endl;
         }

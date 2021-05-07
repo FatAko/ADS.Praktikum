@@ -24,7 +24,7 @@ public:
     void deleteAll(TreeNode* ptr);
     TreeNode* kleinstesRechts(TreeNode* ptr, TreeNode*& ancestor);
     vector<TreeNode> getNodes(std::string name);
-
+    bool searchOrderID(int orderID);
     
     friend TreeNode* get_anker(Tree& TN);
 };
@@ -33,3 +33,4 @@ void printAllPreOrder(TreeNode* ptr1);
 TreeNode* searchNodenAncestor(TreeNode* ptr1, int nodeOrderID, TreeNode*& successor);
 void get_Nodes(vector<TreeNode>& vector, TreeNode* ptr, std::string name);
 void printNodeList(vector<TreeNode> vector);
+void search_OrderID(TreeNode* ptr1, int& result, int orderID);

@@ -18,7 +18,7 @@ Tree::~Tree() {
 	deleteAll(anker->getRight());
 	delete anker;
 }
-void Tree::deleteAll(TreeNode* ptr) {	// Löscht alle Knoten im BST
+void Tree::deleteAll(TreeNode* ptr) {	// Löscht alle Knoten
 	if (ptr != nullptr) {
 		deleteAll(ptr->getLeft());
 		deleteAll(ptr->getLeft());
@@ -137,18 +137,17 @@ bool Tree::deleteNode(int nodeOrderID) {
 }
 ////////////////Einfügen///////////////////////
 void Tree::addNode(std::string name, int age, double income, int postCode) {
-	int nodeOrderID = age + postCode + income, nodeChronologicalID = 0;
+	int nodeOrderID = age + postCode + income;
 	TreeNode* ptr1 = anker;
 	while (true) {
 		if (ptr1 == nullptr) { //falls Baum leer 
-			TreeNode* newNode = new TreeNode(nodeOrderID, nodeChronologicalID, name, age, income, postCode);
+			TreeNode* newNode = new TreeNode(nodeOrderID, currentNodeChronologicalID++, name, age, income, postCode);
 			anker = newNode;
 			break;
 		} else {
-			nodeChronologicalID++; //bei jedem durchlauf um 1 erhöhen
 			if (nodeOrderID > ptr1->getNodeOrderID()) { //betrachte linken Teilbaum
 				if (ptr1->getRight() == nullptr) {
-					TreeNode* newNode = new TreeNode(nodeOrderID, nodeChronologicalID, name, age, income, postCode);
+					TreeNode* newNode = new TreeNode(nodeOrderID, currentNodeChronologicalID++, name, age, income, postCode);
 					ptr1->setRight(newNode);
 					break;
 				} else 
@@ -156,7 +155,7 @@ void Tree::addNode(std::string name, int age, double income, int postCode) {
 			}
 			else if (nodeOrderID < ptr1->getNodeOrderID()) { //betrachte rechten Teilbaum 
 				if (ptr1->getLeft() == nullptr) {
-					TreeNode* newNode = new TreeNode(nodeOrderID, nodeChronologicalID, name, age, income, postCode);
+					TreeNode* newNode = new TreeNode(nodeOrderID, currentNodeChronologicalID++, name, age, income, postCode);
 					ptr1->setLeft(newNode);
 					break;
 				} else 
@@ -174,14 +173,16 @@ bool Tree::searchNode(std::string name) {
 	return result;
 }
 void searchPreOrder(TreeNode* ptr1, int& result, string name) {
-	if (ptr1->getName() == name) //Wurzel
-		result = 1;
+	if (ptr1 != nullptr) {
+		if (ptr1 != nullptr && ptr1->getName() == name) //Wurzel
+			result = 1;
 
-	if (ptr1->getLeft() != nullptr) //linker Teilbaum
-		searchPreOrder(ptr1->getLeft(), result, name);
+		if (ptr1->getLeft() != nullptr) //linker Teilbaum
+			searchPreOrder(ptr1->getLeft(), result, name);
 
-	if (ptr1->getRight() != nullptr) //rechter Teilbaum
-		searchPreOrder(ptr1->getRight(), result, name);
+		if (ptr1->getRight() != nullptr) //rechter Teilbaum
+			searchPreOrder(ptr1->getRight(), result, name);
+	}
 }
 vector<TreeNode> Tree::getNodes(std::string name) {
 	vector<TreeNode> vector;
@@ -229,10 +230,30 @@ TreeNode* searchNodenAncestor(TreeNode* ptr1, int nodeOrderID, TreeNode*& succes
 	if (ptr1->getRight() != nullptr) //rechter Teilbaum
 		return searchNodenAncestor(ptr1->getRight(), nodeOrderID, successor);
 }
+bool Tree::searchOrderID(int orderID) {
+	TreeNode* ptr1 = anker;
+	int result = 0;
+	search_OrderID(ptr1, result, orderID);
+	return result;
+}
+void search_OrderID(TreeNode* ptr1, int& result, int orderID) {
+	if (ptr1 != nullptr)
+	{
+		if (ptr1 != nullptr && ptr1->getNodeOrderID() == orderID) //Wurzel
+			result = 1;
 
+		if (ptr1->getLeft() != nullptr) //linker Teilbaum
+			search_OrderID(ptr1->getLeft(), result, orderID);
+
+		if (ptr1->getRight() != nullptr) //rechter Teilbaum
+			search_OrderID(ptr1->getRight(), result, orderID);
+	}
+}
 ////////////Ausgabe Funktionen////////////////////
 void Tree::printAll() {
 	TreeNode* ptr1 = anker;
+	cout << "ID | Name | Age | Income | PostCode | OrderID" << endl;
+	cout << "---+------------+-------+-----------+-------+-------" << endl;
 	printAllPreOrder(ptr1);
 }
 void printAllPreOrder(TreeNode* ptr1) {
