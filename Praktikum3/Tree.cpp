@@ -198,24 +198,340 @@ int Tree::proofRBCriterion(TreeNode* x) {
 	return 0;
 }
 
-void Tree::printLevelOrder(void) {
-	
+void Tree::LevelOrder() {
+	cout << "ID | Name       | Alter | Einkommen |  PLZ  |  Pos  | Red " << endl;
+	cout << "---+------------+-------+-----------+-------+-------+-------" << endl;
+	queue<TreeNode*> nodeQueue;
+	queue<int> niveauQueue;
+	int aktNiv = 0;
+	bool rechtsVorhanden = 0, linksVorhanden = 0, nivAusgabe = 0;
+	int nivAlt = 0;
+	if (anker != nullptr)
+	{
+		nodeQueue.push(anker);
+		niveauQueue.push(aktNiv);
+		while (true)
+		{
+			if (nodeQueue.empty())
+				break;
+			TreeNode* ptr = nodeQueue.front();
+			aktNiv++;
+			//linker Teilbaum
+			if (ptr->getLeft() != nullptr && ptr->getLeft()->getRed()) // Falls Root einen roten rechten Nachfolger hat
+			{
+				linksVorhanden = 1;
+				if (ptr->getLeft()->getLeft() != nullptr) // Falls Rechter roter Nachfolger einen linken schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getLeft()->getLeft()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				if (ptr->getLeft()->getRight() != nullptr) // Falls Rechter roter Nachfolger einen rechten schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getLeft()->getRight()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+
+			}
+			else if (ptr->getLeft() != nullptr && !ptr->getLeft()->getRed()) // Falls Root einen Schwarzen rechten Nachfolger hat
+			{
+				linksVorhanden = 0;
+				nodeQueue.push(ptr->getLeft());
+				niveauQueue.push(aktNiv);
+			}
+			//rechter Teilbaum
+			if (ptr->getRight() != nullptr && ptr->getRight()->getRed()) // Falls Root einen roten rechten Nachfolger hat
+			{
+				rechtsVorhanden = 1;
+				if (ptr->getRight()->getLeft() != nullptr) // Falls Rechter roter Nachfolger einen linken schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getRight()->getLeft()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				if (ptr->getRight()->getRight() != nullptr) // Falls Rechter roter Nachfolger einen rechten schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getRight()->getRight()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+
+			}
+			else if (ptr->getRight() != nullptr && !ptr->getRight()->getRed()) // Falls Root einen Schwarzen rechten Nachfolger hat
+			{
+				rechtsVorhanden = 0;
+				nodeQueue.push(ptr->getRight());
+				niveauQueue.push(aktNiv);
+			}
+			aktNiv--;
+			//Niveau Ausgabe
+			nivAlt = niveauQueue.front();
+			//Überprüfe um was für Knoten es sich handelt + Ausgabe
+			if (linksVorhanden && rechtsVorhanden)
+			{
+				cout << setw(3) << ptr->getLeft()->getNodeChronologicalID() << "|" << setw(12) << ptr->getLeft()->getName() << "|" << setw(7) << ptr->getLeft()->getAge() << "|" << setw(11)
+					<< ptr->getLeft()->getIncome() << "|" << setw(7) << ptr->getLeft()->getPostCode() << "|" << setw(7) << ptr->getLeft()->getNodeOrderID() << setw(1) << "|" <<setw(2)<< ptr->getLeft()->getRed() << endl;
+
+				cout << setw(3) << ptr->getNodeChronologicalID() << "|" << setw(12) << ptr->getName() << "|" << setw(7) << ptr->getAge() << "|" << setw(11)
+					<< ptr->getIncome() << "|" << setw(7) << ptr->getPostCode() << "|" << setw(7) << ptr->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getRed() << endl;
+
+
+				cout << setw(3) << ptr->getRight()->getNodeChronologicalID() << "|" << setw(12) << ptr->getRight()->getName() << "|" << setw(7) << ptr->getRight()->getAge() << "|" << setw(11)
+					<< ptr->getRight()->getIncome() << "|" << setw(7) << ptr->getRight()->getPostCode() << "|" << setw(7) << ptr->getRight()->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getRight()->getRed() << endl;
+
+			}
+			else if (linksVorhanden)
+			{
+				cout << setw(3) << ptr->getLeft()->getNodeChronologicalID() << "|" << setw(12) << ptr->getLeft()->getName() << "|" << setw(7) << ptr->getLeft()->getAge() << "|" << setw(11)
+					<< ptr->getLeft()->getIncome() << "|" << setw(7) << ptr->getLeft()->getPostCode() << "|" << setw(7) << ptr->getLeft()->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getLeft()->getRed() << endl;
+
+
+				cout << setw(3) << ptr->getLeft()->getNodeChronologicalID() << "|" << setw(12) << ptr->getName() << "|" << setw(7) << ptr->getAge() << "|" << setw(11)
+					<< ptr->getIncome() << "|" << setw(7) << ptr->getPostCode() << "|" << setw(7) << ptr->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getRed() << endl;
+
+			}
+			else if (rechtsVorhanden)
+			{
+				cout << setw(3) << ptr->getNodeChronologicalID() << "|" << setw(12) << ptr->getName() << "|" << setw(7) << ptr->getAge() << "|" << setw(11)
+					<< ptr->getIncome() << "|" << setw(7) << ptr->getPostCode() << "|" << setw(7) << ptr->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getRed() << endl;
+
+
+				cout << setw(3) << ptr->getRight()->getNodeChronologicalID() << "|" << setw(12) << ptr->getRight()->getName() << "|" << setw(7) << ptr->getRight()->getAge() << "|" << setw(11)
+					<< ptr->getRight()->getIncome() << "|" << setw(7) << ptr->getRight()->getPostCode() << "|" << setw(7) << ptr->getRight()->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getRight()->getRed() << endl;
+
+			}
+			else
+			{
+				cout << setw(3) << ptr->getNodeChronologicalID() << "|" << setw(12) << ptr->getName() << "|" << setw(7) << ptr->getAge() << "|" << setw(11)
+					<< ptr->getIncome() << "|" << setw(7) << ptr->getPostCode() << "|" << setw(7) << ptr->getNodeOrderID() << setw(1) << "|" << setw(2) << ptr->getRed() << endl;
+
+			}
+			linksVorhanden = 0;
+			rechtsVorhanden = 0;
+			nodeQueue.pop();
+			niveauQueue.pop();
+			//Niveau Upadate
+			if (!niveauQueue.empty() && nivAlt != niveauQueue.front())
+			{
+				aktNiv++;
+				nivAusgabe = 0;
+			}
+		}
+		cout << endl;
+	}
 }
 
-void Tree::printLevelOrder(int parameter) {
+void Tree::printLevelOrder(void) {
+	queue<TreeNode*> nodeQueue;
+	queue<int> niveauQueue;
+	int aktNiv = 0;
+	bool rechtsVorhanden = 0, linksVorhanden = 0, nivAusgabe = 0;
+	int nivAlt = 0;
+	if (anker != nullptr)
+	{
+		nodeQueue.push(anker);
+		niveauQueue.push(aktNiv);
+		while (true)
+		{
+			if (nodeQueue.empty())
+				break;
+			TreeNode* ptr = nodeQueue.front();
+			aktNiv++;
+			//linker Teilbaum
+			if (ptr->getLeft() != nullptr && ptr->getLeft()->getRed()) // Falls Root einen roten rechten Nachfolger hat
+			{
+				linksVorhanden = 1;
+				if (ptr->getLeft()->getLeft() != nullptr) // Falls Rechter roter Nachfolger einen linken schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getLeft()->getLeft()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				if (ptr->getLeft()->getRight() != nullptr) // Falls Rechter roter Nachfolger einen rechten schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getLeft()->getRight()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				
+			}
+			else if (ptr->getLeft() != nullptr && !ptr->getLeft()->getRed()) // Falls Root einen Schwarzen rechten Nachfolger hat
+			{
+				linksVorhanden = 0;
+				nodeQueue.push(ptr->getLeft());
+				niveauQueue.push(aktNiv);
+			}
+			//rechter Teilbaum
+			if (ptr->getRight() != nullptr && ptr->getRight()->getRed()) // Falls Root einen roten rechten Nachfolger hat
+			{
+				rechtsVorhanden = 1;
+				if (ptr->getRight()->getLeft() != nullptr) // Falls Rechter roter Nachfolger einen linken schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getRight()->getLeft()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				if (ptr->getRight()->getRight() != nullptr) // Falls Rechter roter Nachfolger einen rechten schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getRight()->getRight()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				
+			}
+			else if (ptr->getRight() != nullptr && !ptr->getRight()->getRed()) // Falls Root einen Schwarzen rechten Nachfolger hat
+			{
+				rechtsVorhanden = 0;
+				nodeQueue.push(ptr->getRight());
+				niveauQueue.push(aktNiv);
+			}
+			aktNiv--;
+			//Niveau Ausgabe
+			if (!nivAusgabe)
+			{
+				cout << endl;
+				cout << "Niv " << aktNiv << ": ";
+				nivAusgabe = 1;
+			}
+			nivAlt = niveauQueue.front();
+			//Überprüfe um was für Knoten es sich handelt + Ausgabe
+			if (linksVorhanden && rechtsVorhanden)
+			{
+				cout << "(" << ptr->getLeft()->getNodeOrderID() << "," << ptr->getNodeOrderID() << "," << ptr->getRight()->getNodeOrderID() << ")";
+			}
+			else if (linksVorhanden)
+			{
+				cout << "(" << ptr->getLeft()->getNodeOrderID() << "," << ptr->getNodeOrderID() << ")";
+			}
+			else if (rechtsVorhanden)
+			{
+				cout << "(" << ptr->getNodeOrderID() << "," << ptr->getRight()->getNodeOrderID() << ")";
+			}
+			else
+			{
+				cout << "(" << ptr->getNodeOrderID() << ")";
+			}
+			linksVorhanden = 0;
+			rechtsVorhanden = 0;
+			nodeQueue.pop();
+			niveauQueue.pop();
+			//Niveau Upadate
+			if (!niveauQueue.empty() && nivAlt != niveauQueue.front())
+			{
+				aktNiv++;
+				nivAusgabe = 0;
+			}
+		}
+		cout << endl;
+	}
+}
 
+void Tree::printLevelOrder(int niv) {
+	queue<TreeNode*> nodeQueue;
+	queue<int> niveauQueue;
+	int aktNiv = 0;
+	bool rechtsVorhanden = 0, linksVorhanden = 0, nivAusgabe = 0;
+	int nivAlt = 0;
+	if (anker != nullptr)
+	{
+		nodeQueue.push(anker);
+		niveauQueue.push(aktNiv);
+		while (true)
+		{
+			if (nodeQueue.empty())
+				break;
+			TreeNode* ptr = nodeQueue.front();
+			aktNiv++;
+			//rechter Teilbaum
+			if (ptr->getRight() != nullptr && ptr->getRight()->getRed()) // Falls Root einen roten rechten Nachfolger hat
+			{
+				rechtsVorhanden = 1;
+				if (ptr->getRight()->getRight() != nullptr) // Falls Rechter roter Nachfolger einen rechten schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getRight()->getRight()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				if (ptr->getRight()->getLeft() != nullptr) // Falls Rechter roter Nachfolger einen linken schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getRight()->getLeft()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+			}
+			else if (ptr->getRight() != nullptr && !ptr->getRight()->getRed()) // Falls Root einen Schwarzen rechten Nachfolger hat
+			{
+				rechtsVorhanden = 0;
+				nodeQueue.push(ptr->getRight());
+				niveauQueue.push(aktNiv);
+			}
+			//linker Teilbaum
+			if (ptr->getLeft() != nullptr && ptr->getLeft()->getRed()) // Falls Root einen roten rechten Nachfolger hat
+			{
+				linksVorhanden = 1;
+				if (ptr->getLeft()->getRight() != nullptr) // Falls Rechter roter Nachfolger einen rechten schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getLeft()->getRight()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+				if (ptr->getLeft()->getLeft() != nullptr) // Falls Rechter roter Nachfolger einen linken schwarzen Nachfolger besitzt
+				{
+					nodeQueue.push(ptr->getLeft()->getLeft()); // Füge "Enkel" in die Queue ein
+					niveauQueue.push(aktNiv);
+				}
+			}
+			else if (ptr->getLeft() != nullptr && !ptr->getLeft()->getRed()) // Falls Root einen Schwarzen rechten Nachfolger hat
+			{
+				linksVorhanden = 0;
+				nodeQueue.push(ptr->getLeft());
+				niveauQueue.push(aktNiv);
+			}
+			aktNiv--;
+			if (aktNiv == niv)
+			{
+				//Niveau Ausgabe
+				if (!nivAusgabe)
+				{
+					cout << endl;
+					cout << "Niv " << aktNiv << ": ";
+					nivAusgabe = 1;
+				}
+				nivAlt = niveauQueue.front();
+				//Überprüfe um was für Knoten es sich handelt + Ausgabe
+				if (linksVorhanden && rechtsVorhanden)
+				{
+					cout << "(" << ptr->getLeft()->getNodeOrderID() << "," << ptr->getNodeOrderID() << "," << ptr->getRight()->getNodeOrderID() << ")";
+				}
+				else if (linksVorhanden)
+				{
+					cout << "(" << ptr->getLeft()->getNodeOrderID() << "," << ptr->getNodeOrderID() << ")";
+				}
+				else if (rechtsVorhanden)
+				{
+					cout << "(" << ptr->getNodeOrderID() << "," << ptr->getRight()->getNodeOrderID() << ")";
+				}
+				else
+				{
+					cout << "(" << ptr->getNodeOrderID() << ")";
+				}
+			}
+			linksVorhanden = 0;
+			rechtsVorhanden = 0;
+			nodeQueue.pop();
+			niveauQueue.pop();
+			//Niveau Upadate
+			if (!niveauQueue.empty() && nivAlt != niveauQueue.front())
+			{
+				aktNiv++;
+				nivAusgabe = 0;
+			}
+		}
+		cout << endl;
+	}
 }
 
 void Tree::printAll() {
 	TreeNode* ptr1 = anker;
-	cout << "ID | Name | Age | Income | PostCode | OrderID" << endl;
+	cout << endl;
+	cout << "ID | Name       | Alter | Einkommen |  PLZ  |  Pos  " << endl;
 	cout << "---+------------+-------+-----------+-------+-------" << endl;
 	printAllPreOrder(ptr1);
 }
 void printAllPreOrder(TreeNode* ptr1) {
 	if (ptr1 != nullptr) {
 		cout << setw(3) << ptr1->getNodeChronologicalID() << "|" << setw(12) << ptr1->getName() << "|" << setw(7) << ptr1->getAge() << "|" << setw(11)
-			<< ptr1->getIncome() << "|" << setw(7) << ptr1->getPostCode() << "|" << setw(0) << ptr1->getNodeOrderID() << endl;
+			<< ptr1->getIncome() << "|" << setw(7) << ptr1->getPostCode() << "|" << setw(7) << ptr1->getNodeOrderID() << endl;
 
 		printAllPreOrder(ptr1->getLeft());
 		printAllPreOrder(ptr1->getRight());

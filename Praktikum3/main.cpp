@@ -61,7 +61,7 @@ int main()
 
     Tree* baum = new Tree();
     string name = "", eingabe = "";
-    int alter = 0, plz = 0, orderID = 0;
+    int alter = 0, plz = 0, orderID = 0, level = 0;
     double einkommen = 0.0;
 
     cout << "====================================" << endl;
@@ -72,7 +72,7 @@ int main()
     cout << "3) Suchen" << endl;
     cout << "4) Ausgabe in Preorder" << endl;
     cout << "5) Ausgabe in Levelorder" << endl;
-    cout << "6) Ausgabe in Levelorder" << endl;
+    cout << "6) Ausgabe in Levelorder (mit Niveauauswahl)" << endl;
     cout << "?>" << endl;
     cout << endl;
 
@@ -110,8 +110,7 @@ int main()
             {
                 cout << "+ Datensatz wurde nicht gedunden." << endl;
                 cout << "+ Fehler!" << endl;
-                cout << endl; cout << endl;
-                break;
+                //break;
             }
         }
         else if (eingabe == "4")
@@ -121,11 +120,20 @@ int main()
         }
         else if (eingabe == "5")
         {
-
-            
+            cout << endl;
+            cout << "Ausgabe in Levelorder als binaerer Suchbaum:" << endl;
+            cout << endl;
+            baum->LevelOrder();
+            cout << endl;
+            cout << "Ausgabe in Levelorder als 234-Baum:" << endl;
+            baum->printLevelOrder();
+            cout << endl;
         }
-        else if (eingabe == "6") {
-
+        else if (eingabe == "6")
+        {
+            cout << "Niveau ?> ";
+            cin >> level;
+            baum->printLevelOrder(level);
         }
         else
         {

@@ -32,6 +32,7 @@ public:
     void printLevelOrder();
     void printLevelOrder(int parameter);
     vector<TreeNode> getNodes(std::string name);
+    void LevelOrder();
 
     friend TreeNode* get_anker(Tree& TN);
 };
