@@ -194,8 +194,47 @@ void searchPreOrder(TreeNode* ptr1, int& result, string name) {
 	}
 }
 
-int Tree::proofRBCriterion(TreeNode* x) {
-	return 0;
+	int Tree::proofRBCriterion(TreeNode * ptr) {
+		if (ptr == nullptr) { return -1; } //Fehler
+		TreeNode* rtb = ptr->getRight(), * ltb = ptr->getLeft();
+		if (rtb == nullptr && ltb == nullptr) //Blattknoten wurde gefunden keine Nachfolger
+		{
+			return 0;
+		}
+		else if (rtb != nullptr && ltb != nullptr)
+		{
+			int rtb_hoehe = proofRBCriterion(rtb), ltb_hoehe = proofRBCriterion(ltb); //rekursiver aufruf für die höhe
+			if (rtb->getRed() && ltb->getRed())//beide Nachfolger sind rot
+			{
+				if (rtb_hoehe == ltb_hoehe) return ltb_hoehe;
+			}
+			else if (!rtb->getRed() && !ltb->getRed()) //beide nachfolger sind schwarz
+			{
+				if (rtb_hoehe == ltb_hoehe) return ltb_hoehe + 1;
+			}
+			else if (rtb->getRed() ^ ltb->getRed()) //Ein Nachfolger ist rot und der andere schwarz 
+			{
+				if (rtb->getRed() && rtb_hoehe - ltb_hoehe == 1) return rtb_hoehe;
+				if (ltb->getRed() && ltb_hoehe - rtb_hoehe == 1) return ltb_hoehe;
+
+			}
+			return -1;//Fehler, weil sonst schon return
+		}
+		else if ((rtb == nullptr) ^ (ltb == nullptr)) //Einer der beiden Nachfolger existiert nicht
+		{
+			if (rtb != nullptr) //rechter Nachfolger
+			{
+				int rtb_hoehe = proofRBCriterion(rtb);
+				if (rtb->getRed())return rtb_hoehe;
+				else return rtb_hoehe + 1;
+			}
+			else {//linker Nachfolger
+				int ltb_hoehe = proofRBCriterion(ltb);
+				if (ltb->getRed())return ltb_hoehe;
+				else return ltb_hoehe + 1;
+			}
+		}
+		return -1;
 }
 
 void Tree::LevelOrder() {
