@@ -18,7 +18,7 @@ private:
     TreeNode* left = nullptr, * right = nullptr, * parent = nullptr;
     std::string name;
 public:
-    TreeNode(int nodeOrderID, int nodeChronologicalID, std::string name, int age, double income, int postCode,bool red);
+    TreeNode(int nodeOrderID, int nodeChronologicalID, std::string name, int age, double income, int postCode, bool red);
     void setNodeOrderID(int nodeOrderID);
     void setNodeChronologicalID(int nodeChronologicalID);
     void setName(std::string name);

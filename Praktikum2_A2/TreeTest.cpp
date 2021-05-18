@@ -245,7 +245,7 @@ TEST_CASE("Tree Testing", "[TREE]")
 
     SECTION("Hinzufuegen von Nodes - Erzeuge Grossbaum")
     {
-
+    
         for (int i = 0; i < 124; i++)
         {
             string info = "Name-" + to_string(i);

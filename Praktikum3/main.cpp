@@ -10,6 +10,11 @@
 
 using namespace std;
 
+///////////////////////////////////////
+// Hilfsmethoden fürs Menü hier:
+
+
+
 /***************************
  ** Vorgegebene  Funktion **
  ***************************
@@ -19,39 +24,39 @@ Importiert CSV Datei in bestehenden Baum.
 Bei Aufruf in der main() Methode, muss der Pointer auf den Anker des Baums, als Parameter übergeben werden.
 Es wird die im gleichen Verzeichnis liegende Datei "ExportZielanalyse.csv" geladen.
 ****************************/
-
 void mainscreen_addTreeCSV(Tree*& ref)
 {
-    char j;
-    cout << "+ Moechten Sie die Daten aus der Datei ExportZielanalyse.csv "
-        "importieren(j / n) ? >";
-    cin >> j;
-    if (j == 'j')
-    {
-        ifstream csvread;
-        csvread.open("ExportZielanalyse.csv", ios::in);
-        if (!csvread.is_open())
-            cerr << "Fehler beim Lesen!" << endl;
-        else
-        {
-            string name, age, postcode, income;
+	char j;
+	cout << "+ Moechten Sie die Daten aus der Datei ExportZielanalyse.csv "
+		"importieren(j / n) ?> ";
+	cin >> j;
+	if (j == 'j')
+	{
+		ifstream csvread;
+		csvread.open("ExportZielanalyse.csv", ios::in);
+		if (!csvread.is_open())
+			cerr << "Fehler beim Lesen!" << endl;
+		else
+		{
+			string name, age, postcode, income;
 
-            while (!csvread.eof())
-            {
-                getline(csvread, name, ';');
-                getline(csvread, age, ';');
-                getline(csvread, income, ';');
-                getline(csvread, postcode, '\n');
-                ref->addNode(name, stoi(age), stod(income), stoi(postcode));
-            }
-            csvread.close();
-        }
-        cout << "+ Daten wurden dem Baum hinzugefuegt." << endl;
-    }
+			while (!csvread.eof())
+			{
+				getline(csvread, name, ';');
+				getline(csvread, age, ';');
+				getline(csvread, income, ';');
+				getline(csvread, postcode, '\n');
+				ref->addNode(name, stoi(age), stod(income), stoi(postcode));
+			}
+			csvread.close();
+		}
+		cout << "+ Daten wurden dem Baum hinzugefuegt." << endl;
+	}
 }
 
 int main()
 {
+
     int result = Catch::Session().run();
 
     Tree* baum = new Tree();
@@ -60,14 +65,14 @@ int main()
     double einkommen = 0.0;
 
     cout << "====================================" << endl;
-    cout << "ADS-Praktikum 2.2" << endl;
+    cout << "ADS-Praktikum 3.1" << endl;
     cout << "====================================" << endl;
     cout << "1) Datensatz einfuegen, manuell" << endl;
     cout << "2) Datensatz einfuegen, CSV Import" << endl;
-    cout << "3) Datensatz loeoschen" << endl;
-    cout << "4) Datensatz suchen" << endl;
-    cout << "5) Gesamte Datenstruktur anzeigen" << endl;
-    cout << "6) Beenden" << endl;
+    cout << "3) Suchen" << endl;
+    cout << "4) Ausgabe in Preorder" << endl;
+    cout << "5) Ausgabe in Levelorder" << endl;
+    cout << "6) Ausgabe in Levelorder" << endl;
     cout << "?>" << endl;
     cout << endl;
 
@@ -93,20 +98,6 @@ int main()
         }
         else if (eingabe == "3")
         {
-            cout << "+ Bitte geben Sie den zu loeschenden Datensatz an" << endl;
-            cout << "?> "; cin >> orderID;
-            if (baum->searchOrderID(orderID))
-            {
-                cout << "+ Datensatz wurde geloescht." << endl; cout << endl;
-            }
-            else
-            {
-                cout << "+ Fehler!" << endl;
-                break;
-            }
-        }
-        else if (eingabe == "4")
-        {
             cout << "+ Bitte geben Sie den zu suchenden Datensatz an" << endl;
             cout << "Name ?> ";
             cin >> name;
@@ -123,16 +114,24 @@ int main()
                 break;
             }
         }
-        else if (eingabe == "5")
+        else if (eingabe == "4")
         {
-
             baum->printAll();
             cout << endl; cout << endl;
         }
-        else if (eingabe == "6")
-            break;
-    }
-    system("PAUSE");
-    return 0;
-}
+        else if (eingabe == "5")
+        {
 
+            
+        }
+        else if (eingabe == "6") {
+
+        }
+        else
+        {
+            break;
+        }
+    }
+	system("PAUSE");
+	return 0;
+}

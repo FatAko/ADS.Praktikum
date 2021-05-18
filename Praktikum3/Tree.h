@@ -7,6 +7,7 @@
 #include "TreeNode.h"
 #include "catch.h"
 #include <string>
+#include <queue>
 
 class Tree
 {
@@ -17,9 +18,9 @@ private:
 
     void balance(TreeNode* ptr);
     bool split4Node(TreeNode* ptr);
-    int printRBCriterion(TreeNode* ptr);
-    bool rotateTreeRight(TreeNode* ptr1, TreeNode* ptr2);
-    bool rotateTreeLeft(TreeNode* ptr1, TreeNode* ptr2);
+    int proofRBCriterion(TreeNode* x);
+    bool rotateTreeLeft(TreeNode* x, TreeNode* y);
+    bool rotateTreeRight(TreeNode* x, TreeNode* y);
 
 public:
     Tree();
@@ -28,17 +29,14 @@ public:
     bool searchNode(std::string name);
     void printAll();
     void deleteAll(TreeNode* ptr);
-    TreeNode* kleinstesRechts(TreeNode* ptr, TreeNode*& ancestor);
-    vector<TreeNode> getNodes(std::string name);
-    bool searchOrderID(int orderID);
-    
     void printLevelOrder();
-    void printLevelOrder(int p);
+    void printLevelOrder(int parameter);
+    vector<TreeNode> getNodes(std::string name);
 
     friend TreeNode* get_anker(Tree& TN);
 };
+void recolor(TreeNode* x, TreeNode* y);
 void searchPreOrder(TreeNode* ptr1, int& result, string name);
 void printAllPreOrder(TreeNode* ptr1);
 void get_Nodes(vector<TreeNode>& vector, TreeNode* ptr, std::string name);
 void printNodeList(vector<TreeNode> vector);
-void search_OrderID(TreeNode* ptr1, int& result, int orderID);
