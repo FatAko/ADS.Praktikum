@@ -18,9 +18,9 @@ private:
 
     void balance(TreeNode* ptr);
     bool split4Node(TreeNode* ptr);
-    int proofRBCriterion(TreeNode* x);
     bool rotateTreeLeft(TreeNode* x, TreeNode* y);
     bool rotateTreeRight(TreeNode* x, TreeNode* y);
+    int proofRBCriterion(TreeNode* x);
 
 public:
     Tree();
@@ -33,6 +33,11 @@ public:
     void printLevelOrder(int parameter);
     vector<TreeNode> getNodes(std::string name);
     void LevelOrder();
+    void starterProofRBCriterion();
+
+    TreeNode* getanker(Tree& Tr) {//nur für Test
+        return Tr.anker;
+    }
 
     friend TreeNode* get_anker(Tree& TN);
 };

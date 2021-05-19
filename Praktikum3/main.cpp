@@ -73,6 +73,7 @@ int main()
     cout << "4) Ausgabe in Preorder" << endl;
     cout << "5) Ausgabe in Levelorder" << endl;
     cout << "6) Ausgabe in Levelorder (mit Niveauauswahl)" << endl;
+    cout << "7) Zusatz* test zur Funktion proofRBCriterion" << endl;
     cout << "?>" << endl;
     cout << endl;
 
@@ -134,6 +135,39 @@ int main()
             cout << "Niveau ?> ";
             cin >> level;
             baum->printLevelOrder(level);
+        }
+        else if (eingabe == "7")
+        {
+            Tree* test = new Tree();
+            vector<TreeNode> knotenListe;
+            test->addNode("0", 13, 0, 0);
+            test->addNode("1", 8, 0, 0);
+            test->addNode("2", 17, 0, 0);
+            test->addNode("3", 1, 0, 0);
+            test->addNode("4", 11, 0, 0);
+            test->addNode("5", 15, 0, 0);
+            test->addNode("6", 25, 0, 0);
+            test->addNode("7", 6, 0, 0);
+            test->addNode("8", 22, 0, 0);
+            test->addNode("10", 27, 0, 0);
+            TreeNode* anker = test->getanker(*(test));
+            cout << "Test mit richtigem Baum: " << endl;
+            test->starterProofRBCriterion();
+            cout << endl;
+            test->LevelOrder();
+            cout << endl;
+            //Manipulation des vorher richtigen Baumes
+            anker->getLeft()->setName("Falsch1");
+            anker->getLeft()->setRed(0);
+            anker->getRight()->setName("Falsch2");
+            anker->getRight()->setRed(0);
+            anker->getRight()->getRight()->getRight()->setName("Falsch3");
+            anker->getRight()->getRight()->getRight()->setRed(0);
+            cout << "Test mit falschem Baum: "<< endl;
+            test->starterProofRBCriterion();
+            cout << endl;
+            test->LevelOrder();
+            cout << endl;
         }
         else
         {
