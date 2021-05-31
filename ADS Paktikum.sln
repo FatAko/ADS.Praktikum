@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Praktikum4", "Praktikum4\Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Praktikum 4", "Praktikum 4", "{E47D7759-AA0A-4932-9305-94011E603631}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testpraktikum4", "testpraktikum4\testpraktikum4.vcxproj", "{5AECDC32-A565-4A94-8296-66CE8C2A60A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -99,6 +101,14 @@ Global
 		{63A14350-7147-474B-A46F-C746E61FF41B}.Release|x64.Build.0 = Release|x64
 		{63A14350-7147-474B-A46F-C746E61FF41B}.Release|x86.ActiveCfg = Release|Win32
 		{63A14350-7147-474B-A46F-C746E61FF41B}.Release|x86.Build.0 = Release|Win32
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Debug|x64.ActiveCfg = Debug|x64
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Debug|x64.Build.0 = Debug|x64
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Debug|x86.ActiveCfg = Debug|Win32
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Debug|x86.Build.0 = Debug|Win32
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Release|x64.ActiveCfg = Release|x64
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Release|x64.Build.0 = Release|x64
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Release|x86.ActiveCfg = Release|Win32
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +122,7 @@ Global
 		{292A1CB0-CAE2-4F30-AAB8-A0DEEAA334C4} = {5ACF6225-0D12-4A76-A02C-3D4703D4CCE8}
 		{D4891569-667A-4784-8A81-232C41C4C019} = {7518AEB6-F73E-4152-BAFD-D24301042845}
 		{63A14350-7147-474B-A46F-C746E61FF41B} = {E47D7759-AA0A-4932-9305-94011E603631}
+		{5AECDC32-A565-4A94-8296-66CE8C2A60A1} = {E47D7759-AA0A-4932-9305-94011E603631}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {79FE1608-50D6-40E7-B775-35B368A40917}
