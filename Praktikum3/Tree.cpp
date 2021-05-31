@@ -247,7 +247,7 @@ int Tree::proofRBCriterion(TreeNode* ptr) {
 			if (rechterTeilbaum->getRed() && !linkerTeilbaum->getRed())
 			{
 				//Die Höhe des roten Knotens muss um eins höher sein als die Höhe des schwarzen Knotens
-				if (hoeheRechts = hoeheLinks + 1)
+				if (hoeheRechts == hoeheLinks + 1)
 				{
 					return hoeheRechts;
 				}
@@ -259,7 +259,7 @@ int Tree::proofRBCriterion(TreeNode* ptr) {
 			else if (!rechterTeilbaum->getRed() && linkerTeilbaum->getRed())
 			{
 				//Die Höhe des roten Knotens muss um eins höher sein als die Höhe des schwarzen Knotens
-				if (hoeheLinks = hoeheRechts + 1)
+				if (hoeheLinks == hoeheRechts + 1)
 				{
 					return hoeheLinks;
 				}
