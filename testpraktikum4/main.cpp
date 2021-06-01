@@ -33,7 +33,8 @@ int main() {
 	cout << endl;
 
 	//ShellSort(arr,arr.size());
-	QuickSort(arr, 0,7);
+	//QuickSort(arr, 0,7);
+	MergeSort(arr, 0, 7);
 	cout << "sortiert:" << endl;
 	for (int i = 0; i < arr.size(); i++)
 	{

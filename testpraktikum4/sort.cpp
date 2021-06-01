@@ -3,45 +3,99 @@
 #include <iostream>
 using namespace std;
 
+void Merge(std::vector<int>& arr, int start, int middle, int end) {
 
-void QuickSort(vector<int>&a, int links, int rechts)
+	std::vector<int> leftArray(middle - start + 1);
+	std::vector<int> rightArray(end - middle);
+
+	// fill in left array
+	for (int i = 0; i < leftArray.size(); ++i)
+		leftArray[i] = arr[start + i];
+
+	// fill in right array
+	for (int i = 0; i < rightArray.size(); ++i)
+		rightArray[i] = arr[middle + 1 + i];
+
+	/* Merge the temp arrays */
+
+	// initial indexes of first and second subarrays
+	int leftIndex = 0, rightIndex = 0;
+
+	// the index we will start at when adding the subarrays back into the main array
+	int currentIndex = start;
+
+	// compare each index of the subarrays adding the lowest value to the currentIndex
+	while (leftIndex < leftArray.size() && rightIndex < rightArray.size()) {
+		if (leftArray[leftIndex] <= rightArray[rightIndex]) {
+			arr[currentIndex] = leftArray[leftIndex];
+			leftIndex++;
+		}
+		else {
+			arr[currentIndex] = rightArray[rightIndex];
+			rightIndex++;
+		}
+		currentIndex++;
+	}
+
+	// copy remaining elements of leftArray[] if any
+	while (leftIndex < leftArray.size()) arr[currentIndex++] = leftArray[leftIndex++];
+
+	// copy remaining elements of rightArray[] if any
+	while (rightIndex < rightArray.size()) arr[currentIndex++] = rightArray[rightIndex++];
+}
+
+void MergeSort(std::vector<int>& arr, int start, int end) {
+	// base case
+	if (start < end) {
+		// find the middle point
+		int middle = (start + end) / 2;
+
+		MergeSort(arr, start, middle); // sort first half
+		MergeSort(arr, middle + 1, end);  // sort second half
+
+		// merge the sorted halves
+		Merge(arr, start, middle, end);
+	}
+}
+
+void QuickSort(vector<int>& a, int links, int rechts)
 {
-    int nachlinks = rechts; // Laufindex, der vom rechten Ende nach links laeuft
-    int nachrechts = links; // Laufindex, der vom linken Ende nach rechts laeuft
-    if (nachrechts < nachlinks)
-    { // Pivotelement bestimmen
-        // int pivot = feld[(nachrechts + nachlinks)/2];
-        int pivot = a.at(links);
+	int nachlinks = rechts; // Laufindex, der vom rechten Ende nach links laeuft
+	int nachrechts = links; // Laufindex, der vom linken Ende nach rechts laeuft
+	if (nachrechts < nachlinks)
+	{ // Pivotelement bestimmen
+		// int pivot = feld[(nachrechts + nachlinks)/2];
+		int pivot = a.at(links);
 
-        while (nachrechts <= nachlinks)
-        {    // Links erstes Element suchen, das
-            // groesser oder gleich dem Pivotelement ist
-            while ((nachrechts < rechts) && (a.at(nachrechts) < pivot))
-                nachrechts++;
+		while (nachrechts <= nachlinks)
+		{    // Links erstes Element suchen, das
+			// groesser oder gleich dem Pivotelement ist
+			while ((nachrechts < rechts) && (a.at(nachrechts) < pivot))
+				nachrechts++;
 
-            // Rechts erstes Element suchen, das
-            // kleiner oder gleich dem Pivotelement ist
-            while ((nachlinks > links) && (a.at(nachlinks) > pivot))
-                nachlinks--;
+			// Rechts erstes Element suchen, das
+			// kleiner oder gleich dem Pivotelement ist
+			while ((nachlinks > links) && (a.at(nachlinks) > pivot))
+				nachlinks--;
 
-            // Wenn nicht aneinander vorbei gelaufen, Inhalte vertauschen
-            if (nachrechts <= nachlinks)
-            {
-                int temp = a.at(nachrechts);
-                a.at(nachrechts) = a.at(nachlinks);
-                a.at(nachlinks) = temp;
-                nachrechts++;
-                nachlinks--;
-            }
-        } // end while
+			// Wenn nicht aneinander vorbei gelaufen, Inhalte vertauschen
+			if (nachrechts <= nachlinks)
+			{
+				int temp = a.at(nachrechts);
+				a.at(nachrechts) = a.at(nachlinks);
+				a.at(nachlinks) = temp;
+				nachrechts++;
+				nachlinks--;
+			}
+		} // end while
 
-        // Linken Teil sortieren
-        if (nachlinks > links) QuickSort(a,links, nachlinks);
+		// Linken Teil sortieren
+		if (nachlinks > links) QuickSort(a, links, nachlinks);
 
-        // Rechten Teil sortieren
-        if (nachrechts < rechts) QuickSort(a,nachrechts, rechts);
+		// Rechten Teil sortieren
+		if (nachrechts < rechts) QuickSort(a, nachrechts, rechts);
 
-    } // end if
+	} // end if
 }
 
 void ShellSort(vector<int>& a, int n)
