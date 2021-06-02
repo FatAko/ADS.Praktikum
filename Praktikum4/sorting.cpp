@@ -119,8 +119,47 @@ namespace sorting {
 
 	void HeapSort(vector<int> &a, int n) {
 
+		// build heapSort (rearrange array)
+		for (int i = n / 2 - 1; i >= 0; i--) {
+			percDown(a, n, i);
+		}
 
+		// one by one extract an element from heapSort
+		for (int i = n - 1; i >= 0; i--) {
+			// move current root to end
+			int temp = a.at(0);
+			a.at(0) = a.at(i);
+			a.at(i) = temp;
 
+			// call max heapify on the reduced heapSort
+			percDown(a, i, 0);
+		}
+
+	}
+
+	void percDown(std::vector<int>& a, int n, int i) {
+		int max = i; // initialize max as root
+		int left = 2 * i + 1;
+		int right = 2 * i + 2;
+
+		// if left child is larger than root
+		if (left < n && a.at(left) > a.at(max))
+			max = left;
+
+		// if right child is larger than max
+		if (right < n && a.at(right) > a.at(max))
+			max = right;
+
+		// if max is not root
+		if (max != i) {
+			// swap
+			int temp = a.at(i);
+			a.at(i) = a.at(max);
+			a.at(max) = temp;
+
+			// recursively heapify the affected sub-tree
+			percDown(a, n, max);
+		}
 	}
 
 
