@@ -56,7 +56,7 @@ void benchmark_quicksort() {
   for (int n = n_start; n<=n_end; n += n_step) {
 	
 	//"progress bar"
-    std::cout << "Running Quicksort with n: " << n << std::endl;
+    //std::cout << "Running Quicksort with n: " << n << std::endl;
 
 	//generate n random integers
 	sorting::randomizeVector(V, n);
@@ -97,7 +97,7 @@ void benchmark_mergesort() {
 	for (int n = n_start; n <= n_end; n += n_step) {
 
 		//"progress bar"
-		std::cout << "Running Mergesort with n: " << n << std::endl;
+		//std::cout << "Running Mergesort with n: " << n << std::endl;
 
 		//generate n random integers
 		sorting::randomizeVector(V, n);
@@ -138,7 +138,7 @@ void benchmark_heapsort() {
 	for (int n = n_start; n <= n_end; n += n_step) {
 
 		//"progress bar"
-		std::cout << "Running heapsort with n: " << n << std::endl;
+		//std::cout << "Running heapsort with n: " << n << std::endl;
 
 		//generate n random integers
 		sorting::randomizeVector(V, n);
@@ -179,7 +179,7 @@ void benchmark_shellsort() {
 	for (int n = n_start; n <= n_end; n += n_step) {
 
 		//"progress bar"
-		std::cout << "Running shellsort with n: " << n << std::endl;
+		//std::cout << "Running shellsort with n: " << n << std::endl;
 
 		//generate n random integers
 		sorting::randomizeVector(V, n);
