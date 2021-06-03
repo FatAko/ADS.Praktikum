@@ -4,37 +4,42 @@
 using namespace std;
 
 HashTable::HashTable(int size) {
-	
-	//*****************************
-	// implement constructor here *
-	//*****************************
 
+	hashTable->resize(size);
+	this->size = size;
+	this->elements = 0;
+	this->collisionCount = 0;
 }
 
 HashTable::~HashTable()
 {
-	//****************************
-	// implement destructor here *
-	//****************************
+	delete hashTable;
 }
 
 int HashTable::hashValue(int item) {
-	
-	int index = -1; //dummy initializtation
 
-	//******************************************
-	// implement calculation of hashindex here *
-	//******************************************
-
-	return index;
+	int index = -1;
+	int i = 0;
+	while (true)
+	{
+		index = ((item + i * i) % getSize());
+		if (hashTable->at(index) == -1)
+		{
+			collisionCount++;
+			i++;
+		}
+		else
+		{
+			return index;
+		}
+	}
 }
 
 int HashTable::insert(int item) {
 	
-	//******************************************
-	// implement insertion of new element here *
-	//******************************************
-
+	int index = hashValue(item);
+	hashTable->at(index) = item;
+	elements++;
 	return 0; //dummy return
 }
 
