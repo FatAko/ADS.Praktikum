@@ -4,8 +4,12 @@
 using namespace std;
 
 HashTable::HashTable(int size) {
-
+	hashTable = new vector<int>;
 	hashTable->resize(size);
+	for (int i = 0; i < size; i++)
+	{
+		hashTable->at(i) = -1;
+	}
 	this->size = size;
 	this->elements = 0;
 	this->collisionCount = 0;
@@ -23,7 +27,7 @@ int HashTable::hashValue(int item) {
 	while (true)
 	{
 		index = ((item + i * i) % getSize());
-		if (hashTable->at(index) == -1)
+		if (hashTable->at(index) != -1)
 		{
 			collisionCount++;
 			i++;

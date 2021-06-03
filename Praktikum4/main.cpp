@@ -15,18 +15,21 @@ void benchmark_mergesort();
 void benchmark_heapsort();
 void benchmark_shellsort();
 
+void hashTabelle_Aufgabe5();
 
 int main(int argc, char** argv) {
 
   Catch::Session().run();
+
+  hashTabelle_Aufgabe5();
   
   std::cout << "\nPress Enter to run measurement" << std::endl;
   std::cin.get();
 
-  benchmark_quicksort();
-  benchmark_mergesort();
-  benchmark_heapsort();
-  benchmark_shellsort();
+  //benchmark_quicksort();
+  //benchmark_mergesort();
+  //benchmark_heapsort();
+  //benchmark_shellsort();
   //***************************
   // run all benchmarks *
   //***************************
@@ -34,7 +37,17 @@ int main(int argc, char** argv) {
   return 0;
 }
 
-
+void hashTabelle_Aufgabe5() {
+	HashTable H(1000);
+	vector<int> V;
+	V.resize(200);
+	std::srand(std::time(nullptr));
+	for (unsigned int i = 0; i < V.size(); i++) {
+		V.at(i) = (rand() % 500) + 1000;
+		H.insert(V.at(i));
+	}
+	cout << "Anzahl der Kollisionen: " << H.getCollisionCount() << endl;
+}
 
 
 //executes benchmark for quicksort
