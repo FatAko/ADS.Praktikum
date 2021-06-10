@@ -26,10 +26,10 @@ int main(int argc, char** argv) {
   std::cout << "\nPress Enter to run measurement" << std::endl;
   std::cin.get();
 
-  //benchmark_quicksort();
-  //benchmark_mergesort();
-  //benchmark_heapsort();
-  //benchmark_shellsort();
+  benchmark_quicksort();
+  benchmark_mergesort();
+  benchmark_heapsort();
+  benchmark_shellsort();
   //***************************
   // run all benchmarks *
   //***************************
