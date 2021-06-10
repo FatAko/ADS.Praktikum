@@ -57,7 +57,7 @@ void MergeSort(std::vector<int>& arr, int start, int end) {
 		Merge(arr, start, middle, end);
 	}
 }
-
+/*
 void QuickSort(vector<int>& a, int links, int rechts)
 {
 	int nachlinks = rechts; // Laufindex, der vom rechten Ende nach links laeuft
@@ -97,6 +97,36 @@ void QuickSort(vector<int>& a, int links, int rechts)
 
 	} // end if
 }
+*/
+
+void QuickSort(vector<int>& a, int p, int r) {
+
+	if (p < r) {
+		int pivot = Partition(a, p, r);
+		QuickSort(a, p, pivot - 1);
+		QuickSort(a, pivot + 1, r);
+	}
+}
+
+int Partition(vector<int>& a, int p, int r) {
+
+	int pivot = a[r];
+	int i = p - 1;
+
+	for (int j = p; j <= r - 1; j++) {
+		if (a[j] <= pivot) {
+			i++;
+			swap(a[i], a[j]);
+			for (int i = 0; i < a.size(); i++)
+			{
+				cout << a.at(i) << ", ";
+			}
+			cout << endl;
+		}
+	}
+	swap(a[i + 1], a[r]);
+	return i + 1;
+}
 
 void ShellSort(vector<int>& a, int n)
 {
@@ -104,9 +134,10 @@ void ShellSort(vector<int>& a, int n)
 	for (int h = 1; h < n; h = 2 * h + 1)
 		hibbard.push_back(h);
 
-	for (int x = hibbard.size()-1; x >= 0; x--)
+	for (int x = hibbard.size() - 1; x >= 0; x--)
 	{
 		int gap = hibbard.at(x);
+		cout << "abstand: " << gap << endl;
 		for (int i = gap; i < n; i++)
 		{
 			int temp = a.at(i);
@@ -116,6 +147,14 @@ void ShellSort(vector<int>& a, int n)
 				a.at(j) = a.at(j - gap);
 			}
 			a.at(j) = temp;
+
+			for (int i = 0; i < a.size(); i++)
+			{
+				cout << a.at(i) << ", ";
+			}
+			cout << endl;
+
 		}
 	}
+
 }
