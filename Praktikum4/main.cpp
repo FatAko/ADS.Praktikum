@@ -26,9 +26,9 @@ int main(int argc, char** argv) {
   std::cout << "\nPress Enter to run measurement" << std::endl;
   std::cin.get();
 
-  benchmark_quicksort();
-  benchmark_mergesort();
-  benchmark_heapsort();
+ // benchmark_quicksort();
+ // benchmark_mergesort();
+ // benchmark_heapsort();
   benchmark_shellsort();
   //***************************
   // run all benchmarks *
@@ -41,7 +41,7 @@ void hashTabelle_Aufgabe5() {
 	HashTable H(1000);
 	vector<int> V;
 	V.resize(200);
-	std::srand(std::time(nullptr));
+	//std::srand(std::time(nullptr));
 	for (unsigned int i = 0; i < V.size(); i++) {
 		V.at(i) = (rand() % 500) + 1000;
 		H.insert(V.at(i));

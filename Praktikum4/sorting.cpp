@@ -154,7 +154,6 @@ namespace sorting {
 				a.at(j) = temp;
 			}
 		}
-
 	}
 
   void randomizeVector(vector<int> &array, int n) {
