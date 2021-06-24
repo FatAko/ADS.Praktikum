@@ -8,9 +8,26 @@
  */
 PrimMST::PrimMST(EdgeWeightedGraph G, int s)
 {
-	/*
-	 * TODO
-	 */
+	marked.resize(G.getV(), false);
+	//priority_queue<Edge> path;
+	// lege alle Kanten vom Startknoten 0 ausgehend in die Priority Queue (PQ)
+	// setzt voraus, dass G zusammenhaengend ist
+	visit(G, s);
+	while (!pq.empty()) {
+		Edge e = pq.top(); // Hole Kante mit geringstem Gewicht aus PQ
+		//path.push(e);
+		pq.pop(); // entferne diese Kante aus PQ
+		int v = e.either(); // Knoten 1 der Kante
+		int w = e.other(v); // Knoten 2 der Kante
+		// Überspringen, falls beide Knoten im Baum markiert sind
+		if (marked[v] && marked[w])
+			continue; // Zykel-Detektion
+		mst.push_back(e); // Füge Kante e zum MSP hinzu
+		if (!marked[v])
+			visit(G, v); // Knoten v oder w zum MSP
+		if (!marked[w])
+			visit(G, w); // hinzufügen
+	}
 }
 
 /**
@@ -21,9 +38,15 @@ PrimMST::PrimMST(EdgeWeightedGraph G, int s)
  */
 void PrimMST::visit(EdgeWeightedGraph G, int v)
 {
-	/*
-	 * TODO
-	 */
+	// Markiere Knoten v als besucht
+	marked[v] = true;
+	std::vector<Edge> edges = G[v]; // liefert alle Kanten ausgehend vom Knoten v
+	// Lege alle Kanten von v zu unmarkierten
+	// (noch nicht besuchten) Knoten in die PQ ab
+	for (int i = 0; i < edges.size(); i++) {
+		if (!marked[edges[i].other(v)])
+			pq.push(edges[i]);
+	}
 }
 
 /**
@@ -33,10 +56,7 @@ void PrimMST::visit(EdgeWeightedGraph G, int v)
  */
 std::vector<Edge> PrimMST::edges() const
 {
-	/*
-	 * TODO
-	 */
-	return std::vector<Edge>();
+	return PrimMST::mst;
 }
 
 /**
@@ -46,8 +66,9 @@ std::vector<Edge> PrimMST::edges() const
  */
 double PrimMST::weight() const
 {
-	/*
-	 * TODO
-	 */
-	return 0.0;
+	double weight = 0.0;
+	for (int i = 0; i < PrimMST::mst.size(); i++) {
+		weight += PrimMST::mst[i].weight();
+	}
+	return weight;
 }

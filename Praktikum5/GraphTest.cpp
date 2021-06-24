@@ -99,13 +99,13 @@ TEST_CASE("Graph Test: Tiefensuche (DFS)") {
 
 		// edgeTo-Array der Tiefensuche mit Startknoten 0 testen 
 		Graphsearch::DFS(G1, 0, marked, edgeTo);
-		REQUIRE(edgeTo[0] == 1);
-		REQUIRE(edgeTo[1] == 2);
-		REQUIRE(edgeTo[2] == 4);
-		REQUIRE(edgeTo[3] == 5);
-		REQUIRE(edgeTo[4] == 3);
-		REQUIRE(edgeTo[5] == 6);
-		REQUIRE(edgeTo[6] == -1);
+		REQUIRE(edgeTo[0] == -1);
+		REQUIRE(edgeTo[1] == 0);
+		REQUIRE(edgeTo[2] == 1);
+		REQUIRE(edgeTo[3] == 4);
+		REQUIRE(edgeTo[4] == 2);
+		REQUIRE(edgeTo[5] == 3);
+		REQUIRE(edgeTo[6] == 5);
 	}
 
 	SECTION("Tiefensuche mit zweiten Graphen (graph2.txt)") {
@@ -118,11 +118,11 @@ TEST_CASE("Graph Test: Tiefensuche (DFS)") {
 		}
 
 		Graphsearch::DFS(G2, 0, marked, edgeTo);
-		REQUIRE(edgeTo[0] == 1);
-		REQUIRE(edgeTo[1] == 3);
-		REQUIRE(edgeTo[7] == 6);
-		REQUIRE(edgeTo[8] == 12);
-		REQUIRE(edgeTo[19] == 11);
+		REQUIRE(edgeTo[0] == -1);
+		REQUIRE(edgeTo[1] == 0);
+		REQUIRE(edgeTo[7] == 4);
+		REQUIRE(edgeTo[8] == 9);
+		REQUIRE(edgeTo[19] == 13);
 	}
 
 	SECTION("Tiefensuche mit dritten Graphen (graph3.txt)") {
@@ -169,10 +169,10 @@ TEST_CASE("Graph Test: Breitensuche (BFS)") {
 		REQUIRE(edgeTo[0] == -1);
 		REQUIRE(edgeTo[1] == 0);
 		REQUIRE(edgeTo[2] == 1);
-		REQUIRE(edgeTo[3] == 0);
-		REQUIRE(edgeTo[4] == 1);
-		REQUIRE(edgeTo[5] == 3);
-		REQUIRE(edgeTo[6] == 4);
+		REQUIRE(edgeTo[3] == 1);
+		REQUIRE(edgeTo[4] == 2);
+		REQUIRE(edgeTo[5] == 4);
+		REQUIRE(edgeTo[6] == 5);
 	}
 
 	SECTION("Breitensuche mit zweiten Graphen (graph2.txt)") {
@@ -188,10 +188,10 @@ TEST_CASE("Graph Test: Breitensuche (BFS)") {
 		Graphsearch::BFS(G2, 0, marked, edgeTo);
 		REQUIRE(edgeTo[0] == -1);
 		REQUIRE(edgeTo[1] == 0);
-		REQUIRE(edgeTo[2] == 3);
-		REQUIRE(edgeTo[6] == 16);
-		REQUIRE(edgeTo[11] == 4);
-		REQUIRE(edgeTo[15] == 4);
+		REQUIRE(edgeTo[2] == 17);
+		REQUIRE(edgeTo[6] == 9);
+		REQUIRE(edgeTo[11] == 5);
+		REQUIRE(edgeTo[15] == 10);
 		REQUIRE(edgeTo[19] == 0);
 	}
 
@@ -205,13 +205,13 @@ TEST_CASE("Graph Test: Breitensuche (BFS)") {
 
 			// Hinweis: Die Knoten {0,4,18} bilden einen Teilgraphen
 			if (i == 0 || i == 4 || i == 18) {
-				REQUIRE(marked[0]  == true);
-				REQUIRE(marked[4]  == true);
+				REQUIRE(marked[0] == true);
+				REQUIRE(marked[4] == true);
 				REQUIRE(marked[18] == true);
 			}
 			else {
-				REQUIRE(marked[0]  == false);
-				REQUIRE(marked[4]  == false);
+				REQUIRE(marked[0] == false);
+				REQUIRE(marked[4] == false);
 				REQUIRE(marked[18] == false);
 			}
 		}
