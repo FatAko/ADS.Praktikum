@@ -9,24 +9,31 @@
 PrimMST::PrimMST(EdgeWeightedGraph G, int s)
 {
 	marked.resize(G.getV(), false);
-	//priority_queue<Edge> path;
 	// lege alle Kanten vom Startknoten 0 ausgehend in die Priority Queue (PQ)
 	// setzt voraus, dass G zusammenhaengend ist
 	visit(G, s);
-	while (!pq.empty()) {
+	while (!pq.empty())
+	{
+		//oberstes Element = geringste Entfernung
 		Edge e = pq.top(); // Hole Kante mit geringstem Gewicht aus PQ
-		//path.push(e);
 		pq.pop(); // entferne diese Kante aus PQ
 		int v = e.either(); // Knoten 1 der Kante
 		int w = e.other(v); // Knoten 2 der Kante
 		// Überspringen, falls beide Knoten im Baum markiert sind
-		if (marked[v] && marked[w])
+		if (marked[v] && marked[w]) // Wenn beide Knoten bereits besucht -> Zyklus
+		{
 			continue; // Zykel-Detektion
-		mst.push_back(e); // Füge Kante e zum MSP hinzu
+		}
+		mst.push_back(e); // Füge Kante e zum MSP hinzu -> Kanten des minimalen Spannbaums speichern
+		//Betrachte Nachbarknoten, falls noch nicht als besucht markiert
 		if (!marked[v])
+		{
 			visit(G, v); // Knoten v oder w zum MSP
+		}
 		if (!marked[w])
+		{
 			visit(G, w); // hinzufügen
+		}
 	}
 }
 

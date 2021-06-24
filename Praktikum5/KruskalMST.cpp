@@ -21,7 +21,7 @@ KruskalMST::KruskalMST(EdgeWeightedGraph G)
 		int v = e.either(); int w = e.other(v);
 		// Wenn Knoten v und w zu unterschiedlichen Bäumen gehört,
 		// können diese mit der Kante e ohne Zykel verbunden werden
-		if (treeID[v] != treeID[w]) {
+		if (treeID[v] != treeID[w]) { //Teilgraphen separieren
 			mst.push_back(e);
 			int treeID_w = treeID[w];
 			for (int i = 0; i < G.getV(); i++) { // BaumID von v und w
