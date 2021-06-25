@@ -132,14 +132,35 @@ int main() {
 				cout << "Minimaler Spannbaum (MST) nach Prim: " << endl;
 				cout << "Gewicht: " << prim.weight() << endl;
 				cout << "Adjazenzliste: " << endl;
-				for (int i = 0; i < graph->getV(); i++) {
+				/*for (int i = 0; i < graph->getV(); i++) {
 					vector<Edge>adj = graph->getAdj(i);
 					cout << i;
 					for (int kante = 0; kante < adj.size(); kante++) {
 						cout << " -> " << adj[kante].other(i) << " [" << adj[kante].weight() << "]";
 					}
 					cout << endl;
+				}*/
+				for (int i2 = 0, zeile = 0; i2 < prim.edges().size(); i2++) {
+
+					for (int i = 0; i < prim.edges().size(); i++) {
+
+						if (prim.edges()[i].either() == i2) {
+							cout << i2;
+							zeile++;
+							break;
+						}
+					}
+					for (int i = 0; i < prim.edges().size(); i++) {
+
+						if (prim.edges()[i].either() == i2)
+							cout << " -> " << prim.edges()[i].other(i2) << "[" << prim.edges()[i].weight() << "] ";
+					}
+					if (zeile != 0) {
+						cout << endl;
+					}
+					zeile = 0;
 				}
+				cout << endl;
 			}
 			else
 				cout << "Keinen Graph geladen" << endl;
@@ -152,14 +173,32 @@ int main() {
 				cout << "Minimaler Spannbaum (MST) nach kruskal: " << endl;
 				cout << "Gewicht: " << kruskal.weight() << endl;
 				cout << "Adjazenzliste: " << endl;
-				for (int i = 0; i < graph->getV(); i++) {
+				/*for (int i = 0; i < graph->getV(); i++) {
 					vector<Edge>adj = graph->getAdj(i);
 					cout << i;
 					for (int j = 0; j < adj.size(); j++) {
 						cout << " -> " << adj[j].other(i) << " [" << adj[j].weight() << "]";
 					}
 					cout << endl;
+				}*/
+				for (int i2 = 0, zeile = 0; i2 < kruskal.edges().size(); i2++) {
+					for (int i = 0; i < kruskal.edges().size(); i++) {
+						if (kruskal.edges()[i].either() == i2) {
+							cout << i2;
+							zeile++;
+							break;
+						}
+					}
+					for (int i = 0; i < kruskal.edges().size(); i++) {
+						if (kruskal.edges()[i].either() == i2)
+							cout << " -> " << kruskal.edges()[i].other(i2) << "[" << kruskal.edges()[i].weight() << "] ";
+					}
+					if (zeile != 0) {
+						cout << endl;
+					}
+					zeile = 0;
 				}
+				cout << endl;
 			}
 			else
 				cout << "Keinen Graph geladen" << endl;

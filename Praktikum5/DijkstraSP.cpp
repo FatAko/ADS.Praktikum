@@ -15,7 +15,7 @@ void DijkstraSP::relax(EdgeWeightedDigraph G, int v)
 	std::vector<DirectedEdge> edges = G[v]; // adjazente Knoten zum Knoten v
 	for (DirectedEdge e : edges) {
 		
-		int w = e.to(); 
+		int w = e.to();
 		
 		if (distToVect[w] > distToVect[v] + e.weight()) { //ist Weg kürzer?
 			
@@ -91,7 +91,7 @@ std::vector<DirectedEdge> DijkstraSP::pathTo(int v)
 		return weg;
 	}
 	//Startknoten bestimmen
-	int st = edgeTo.begin()->first; 
+	int st = edgeTo.begin()->first;
 	int s = edgeTo.at(st).from();
 
 	std::vector<DirectedEdge> rückwaerts;
