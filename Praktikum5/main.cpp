@@ -201,7 +201,7 @@ int main() {
 					cout << "Ziel:   " << zielKnoten << endl;
 					if (path.size() > 0)
 					{
-						cout << "Pfad:    " << path[0].from();
+						cout << "Pfad:   " << path[0].from();
 						for (int i = 0; i < path.size(); i++) {
 							cout << " [" << path[i].weight() << "]" << " -> " << path[i].to();
 							laenge += path[i].weight();
@@ -209,7 +209,7 @@ int main() {
 					}
 					else
 					{
-						cout << "Pfad:    " << startKnoten << " -> " << zielKnoten << endl;
+						cout << "Pfad:   " << startKnoten << " -> " << zielKnoten << endl;
 					}
 					cout << endl << "Kosten: " << laenge << endl;
 
