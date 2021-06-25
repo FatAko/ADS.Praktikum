@@ -6,282 +6,266 @@
 #include "Graphsearch.h"
 #include "KruskalMST.h"
 #include "DijkstraSP.h"
+#include <string>
 
 using namespace std;
-
-void adjazenzliste(EdgeWeightedDigraph* digraph);
-void adjazenzliste(EdgeWeightedGraph* graph);
 
 int main() {
 	// Starte Unit-Tests
 	Catch::Session().run();
+	
+	string eingabe = "";
+	bool dOderG = false; //Digraph falls 1
+	int graphNr = 0;
+	int startKnoten = -1;
+	int zielKnoten = -1;
+	double laenge = 0.0;
 
-	int graph = -1, dia = -1;
-	bool diag = false;
-	int auswahl = -1;
-	EdgeWeightedGraph* g = nullptr;
-	EdgeWeightedDigraph* d = nullptr;
+	EdgeWeightedGraph* graph = nullptr;
+	EdgeWeightedDigraph* digraph = nullptr;
+	vector<bool>marked;
+	vector<int>edgeTo;
+	bool zusammenhaengend = false;
 
-	cout << "Praktikum 5: Graphenalgorithem" << endl
-		<< "1) Graph einlesen" << endl
-		<< "2) Tiefensuche " << endl
-		<< "3) Breitensuche" << endl
-		<< "4) MST nach Prim" << endl
-		<< "5) MST nach Kruskal" << endl
-		<< "6) Kuerzeste Wege nach Dijkstra" << endl
-		<< "7) Ausgabe der Adjazenzliste" << endl
-		<< "8) Programm beenden" << endl
-		<< "Weiter mit beliebiger Eingabe" << endl
-		<< "?>";
-	while (true) {
-		cin >> auswahl;
-		switch (auswahl) {
-		case 1:
-			cout << "Als Diagraph(0) oder Graph(1) ? " << endl
-				<< "?>";
-			cin >> dia;
-			switch (dia) {
-			case 0:
-				dia = true;
-				break;
-			case 1:
-				dia = false;
-				break;
-			default:
-				cout << "Falscher Wert" << endl;
-				break;
+
+	while (true)
+	{
+		cout << "Praktikum 5: Graphenalgorithmen:" << endl;
+		cout << "1) Graph einlesen" << endl;
+		cout << "2) Tiefensuche" << endl;
+		cout << "3) Breitensuche" << endl;
+		cout << "4) MST nach Prim" << endl;
+		cout << "5) MST nach Kruskal" << endl;
+		cout << "6) Kuerzeste Wege nach Dijkstra" << endl;
+		cout << "7) Ausgabe der Adjazenzliste" << endl;
+		cout << "8) Programm beenden" << endl;
+		cout << "Weiter mit beliebiger Eingabe ..." << endl;
+		cout << "?>";
+
+		cin >> eingabe;
+		if (eingabe == "1") {
+			cout << "Graph oder Digraph? (G = 0/D = 1)" << endl;
+			cout << "?>";
+			cin >> dOderG;
+			cout << "Welcher Graph soll eingelesen werden? (1,2,3)" << endl;
+			cout << "?>";
+			cin >> graphNr;
+			if (graphNr == 1) {
+				if (dOderG) {
+					digraph = new EdgeWeightedDigraph("graph1.txt");
+				} else graph = new EdgeWeightedGraph("graph1.txt");
 			}
-			cout << "Welcher Graph soll eingelesen werden (1,2 oder 3) ? " << endl
-				<< "?>";
-			cin >> graph;
-
-			switch (graph) {
-			case 1:
-				if (dia)
-					d = new EdgeWeightedDigraph("graph1.txt");
-				else
-					g = new EdgeWeightedGraph("graph1.txt");
-				break;
-			case 2:
-				if (dia)
-					d = new EdgeWeightedDigraph("graph2.txt");
-				else
-					g = new EdgeWeightedGraph("graph2.txt");
-				break;
-			case 3:
-				if (dia)
-					d = new EdgeWeightedDigraph("graph3.txt");
-				else
-					g = new EdgeWeightedGraph("graph3.txt");
-				break;
-			default:
-				graph = -1;
-				cout << "Gib eine Zahl zwischen 1 und 3 ein!" << endl;
-				break;
+			else if (graphNr == 2) {
+				if (dOderG) {
+					digraph = new EdgeWeightedDigraph("graph2.txt");
+				} else graph = new EdgeWeightedGraph("graph2.txt");
 			}
-			break;
-
-
-		case 2:
-			if (g != nullptr) {
-				int startKnoten = -1;
-				do {
-					cout << "Gib eine Zahl zwischen 0 und " << g->getV() - 1 << " an." << endl <<
-						"?>";
+			else if (graphNr == 3) {
+				if (dOderG) {
+					digraph = new EdgeWeightedDigraph("graph3.txt");
+				} else graph = new EdgeWeightedGraph("graph3.txt");
+			}
+			else {
+				cout << "Ungueltige Eingabe" << endl;
+				cout << "?>";
+				continue;
+			}
+		}else if (eingabe == "2") {
+			if (graph != nullptr) {
+			
+				while (true)
+				{
+					cout << "Gib einen Startknoten zwischen 0 und " << graph->getV() - 1 << " an." << endl;
+					cout << "?>";
 					cin >> startKnoten;
-				} while (startKnoten<0 || startKnoten>g->getV());
-				vector<bool>marked;
-				vector<int>edgeTo;
-				bool verbunden = false;
-				cout << "Tiefensuche (Depth-First-Search (DFS)) - Startknoten: " << startKnoten << endl
-					<< "Besuchsreihenfolge: ";
-				verbunden = Graphsearch::DFS(*g, startKnoten, marked, edgeTo);
-
-				if (verbunden)
+					if (startKnoten >= 0 && startKnoten < graph->getV())
+						break;
+				}
+				cout << "Tiefensuche (Depth-First-Search (DFS)) - Startknoten: " << startKnoten << endl;
+				cout << "Besuchsreihenfolge:" << endl;
+				zusammenhaengend = Graphsearch::DFS(*graph, startKnoten, marked, edgeTo);
+				if (zusammenhaengend)
 					cout << endl << "Graph ist zusammenhaengend" << endl;
 				else
 					cout << endl << "Graph ist nicht zusammenhaengend" << endl;
 			}
 			else
-				cout << "Keinen Graph geladen" << endl;
-			system("PAUSE");
-			cout << endl << endl << endl;
-			break;
-		case 3:
-			if (g != nullptr) {
-				int startKnoten = -1;
-				do {
-					cout << "Gib eine Startknoten zwischen 0 und " << g->getV() - 1 << " an." << endl
-						<< "?>";
-					cin >> startKnoten;
-				} while (startKnoten<0 || startKnoten>g->getV());
-				vector<bool>marked;
-				vector<int>edgeTo;
-				bool verbunden = false;
-				cout << "Breitensuche (Breadth-First-Search (BFS)) - Startknoten: " << startKnoten << endl
-					<< "Besuchsreihenfolge: ";
-				verbunden = Graphsearch::BFS(*g, startKnoten, marked, edgeTo);
+				cout << "Keinen Graphen geladen" << endl;
+			cout << "?>";
+			continue;
 
-				if (verbunden)
+		}else if (eingabe == "3") {
+			if (graph != nullptr) {
+
+				while (true)
+				{
+					cout << "Gib einen Startknoten zwischen 0 und " << graph->getV() - 1 << " an." << endl;
+					cout << "?>";
+					cin >> startKnoten;
+					if (startKnoten >= 0 && startKnoten < graph->getV())
+						break;
+				}
+				cout << "Breitensuche (Breadth-First-Search (DFS)) - Startknoten: " << startKnoten << endl;
+				cout << "Besuchsreihenfolge:" << endl;
+				zusammenhaengend = Graphsearch::BFS(*graph, startKnoten, marked, edgeTo);
+				if (zusammenhaengend)
 					cout << endl << "Graph ist zusammenhaengend" << endl;
 				else
 					cout << endl << "Graph ist nicht zusammenhaengend" << endl;
 			}
 			else
-				cout << "Keinen Graph geladen" << endl;
-			system("PAUSE");
-			cout << endl << endl << endl;
-			break;
-		case 4:
-			if (g != nullptr) {
-				int startKnoten = -1;
-				do {
-					cout << "Gib einen Startknoten zwischen 0 und " << g->getV() - 1 << " an." << endl
-						<< "?>";
-					cin >> startKnoten;
-				} while (startKnoten<0 || startKnoten>g->getV());
-				PrimMST prim(*g, startKnoten);
-				cout << "Minimaler Spannbaum (MST) nach Prim: " << endl
-					<< "Gewicht: " << prim.weight() << endl
-					<< "Adjazenzliste: " << endl;
+				cout << "Keinen Graphen geladen" << endl;
+			cout << "?>";
+			continue;
 
-				for (int knoten = 0; knoten < g->getV(); knoten++) {
-					vector<Edge>adj = g->getAdj(knoten);
-					cout << knoten;
+		}else if (eingabe == "4") {
+			if (graph != nullptr) {
+				while (true)
+				{
+					cout << "Gib einen Startknoten zwischen 0 und " << graph->getV() - 1 << " an." << endl;
+					cout << "?>";
+					cin >> startKnoten;
+					if (startKnoten >= 0 && startKnoten < graph->getV())
+						break;
+				}
+				PrimMST prim(*graph, startKnoten);
+				cout << "Minimaler Spannbaum (MST) nach Prim: " << endl;
+				cout << "Gewicht: " << prim.weight() << endl;
+				cout << "Adjazenzliste: " << endl;
+				for (int i = 0; i < graph->getV(); i++) {
+					vector<Edge>adj = graph->getAdj(i);
+					cout << i;
 					for (int kante = 0; kante < adj.size(); kante++) {
-						cout << " -> " << adj[kante].other(knoten) << " [" << adj[kante].weight() << "]";
+						cout << " -> " << adj[kante].other(i) << " [" << adj[kante].weight() << "]";
 					}
 					cout << endl;
 				}
 			}
 			else
 				cout << "Keinen Graph geladen" << endl;
-			system("PAUSE");
-			cout << endl << endl << endl;
-			break;
-		case 5:
-			if (g != nullptr) {
-				KruskalMST kruskal(*g);
-				cout << "Minimaler Spannbaum (MST) nach Kruskal: " << endl
-					<< "Gewicht: " << kruskal.weight() << endl
-					<< "Adjazenzliste: " << endl;
-				for (int knoten = 0; knoten < g->getV(); knoten++) {
-					vector<Edge>adj = g->getAdj(knoten);
-					cout << knoten;
-					for (int kante = 0; kante < adj.size(); kante++) {
-						cout << " -> " << adj[kante].other(knoten) << " [" << adj[kante].weight() << "]";
+			cout << "?>";
+			continue;
+
+		}else if (eingabe == "5") {
+			if (graph != nullptr) {
+				KruskalMST kruskal(*graph);
+				cout << "Minimaler Spannbaum (MST) nach kruskal: " << endl;
+				cout << "Gewicht: " << kruskal.weight() << endl;
+				cout << "Adjazenzliste: " << endl;
+				for (int i = 0; i < graph->getV(); i++) {
+					vector<Edge>adj = graph->getAdj(i);
+					cout << i;
+					for (int j = 0; j < adj.size(); j++) {
+						cout << " -> " << adj[j].other(i) << " [" << adj[j].weight() << "]";
 					}
 					cout << endl;
 				}
 			}
 			else
 				cout << "Keinen Graph geladen" << endl;
-			system("PAUSE");
-			cout << endl << endl << endl;
-			break;
-		case 6:
-			if (d != nullptr) {
-				int startKnoten = -1, zielKnoten = -1;
-				do {
-					cout << "Gib einen Startknoten zwischen 0 und " << d->getV() - 1 << " an." << endl
-						<< "?>";
+			cout << "?>";
+			continue;
+
+		}else if (eingabe == "6") {
+
+			if (digraph != nullptr) {
+
+				while (true)
+				{
+					cout << "Gib einen Startknoten zwischen 0 und " << digraph->getV() - 1 << " an." << endl;
+					cout << "?>";
 					cin >> startKnoten;
-					cout << "Gib einen Zielknoten zwischen 0 und " << d->getV() - 1 << " an." << endl
-						<< "?>";
+
+					cout << "Gib einen Zielknoten zwischen 0 und " << digraph->getV() - 1 << " an." << endl;
+					cout << "?>";
 					cin >> zielKnoten;
-
-				} while ((startKnoten<0 || startKnoten>d->getV() && (zielKnoten<0 || zielKnoten>d->getV())));
-				DijkstraSP dijkstra(*d, startKnoten);
-				if (!dijkstra.hasPathTo(zielKnoten)) {
-					cout << endl << "ACHTUNG!" << endl << "Zwischen diesen Knoten existert kein Weg!" << endl;
-					break;
+					if ((startKnoten >= 0 && startKnoten < digraph->getV()) && (zielKnoten >= 0 && zielKnoten < digraph->getV()))
+						break;
+				}
+				DijkstraSP dijkstra(*digraph, startKnoten);
+				if (dijkstra.hasPathTo(zielKnoten)) {
+					vector<DirectedEdge> path = dijkstra.pathTo(zielKnoten);
+					cout << "Gewichtete Kanten des Graphen" << endl;
+				
+					vector<DirectedEdge> adj;
+					for (int i = 0; i < digraph->getV(); i++) {
+						adj = digraph->getAdj(i);
+						cout << i;
+						for (int j = 0; j < adj.size(); j++) {
+							cout << " -> " << adj[j].to() << " [" << adj[j].weight() << "]";
+						}
+						cout << endl;
+					}
+					cout << "Kuerzester Weg(Dijkstra):" << endl;
+					cout << "Start:  " << startKnoten << endl;
+					cout << "Ziel:   " << zielKnoten << endl;
+					if (path.size() > 0)
+					{
+						cout << "Pfad:    " << path[0].from();
+						for (int i = 0; i < path.size(); i++) {
+							cout << " [" << path[i].weight() << "]" << " -> " << path[i].to();
+							laenge += path[i].weight();
+						}
+					}
+					else
+					{
+						cout << "Pfad:    " << startKnoten << " -> " << zielKnoten << endl;
+					}
+					cout << endl << "Kosten: " << laenge << endl;
 
 				}
-				vector<DirectedEdge> path = dijkstra.pathTo(zielKnoten);
-				double kosten = 0.0;
-				cout << "Gewichtete Kanten des Graphen" << endl;
-				adjazenzliste(d);
-				// Weg anzeigen und Kosten ermitteln
-				cout << "Kuerzester Weg(Dijkstra):" << endl
-					<< "Start:  " << startKnoten << endl
-					<< "Ziel:   " << zielKnoten << endl
-					<< "Pfad:    " << path[0].from();
-				for (int kante = 0; kante < path.size(); kante++) {
-					cout << " [" << path[kante].weight() << "]" << " -> " << path[kante].to();
-					kosten += path[kante].weight();
+				else {
+					cout << "Kein Pfad vorhanden!" << endl;
+					continue;
 				}
-				cout << endl << "Kosten: " << kosten << endl;
 			}
-
 			else
 				cout << "Keinen Graph geladen" << endl;
-			system("PAUSE");
-			cout << endl << endl << endl;
-			break;
-		case 7:
-			if (d != nullptr)
-				cout << "Diagraph ist geladen(1)" << endl;
-			else
-				cout << "Diagraph ist nicht geladen" << endl;
-			if (g != nullptr)
-				cout << "Graph ist geladen(0)" << endl;
-			else
-				cout << "Graph ist nicht geladen" << endl;
-			cout << "Ihre Auswahl: ?>";
-			cin >> auswahl;
-			switch (auswahl) {
-			case 0:
-				adjazenzliste(g);
-				break;
-			case 1:
-				adjazenzliste(d);
-				break;
+			continue;
+
+		}else if (eingabe == "7") {
+			
+			if (graph != nullptr)
+			{
+				cout << "Ausgabe Graph" << endl;
+				vector<Edge> adj;
+
+				for (int i = 0; i < graph->getV(); i++) {
+					adj = graph->getAdj(i);
+					cout << i;
+					for (int j = 0; j < adj.size(); j++) {
+						cout << " -> " << adj[j].other(i) << " [" << adj[j].weight() << "]";
+					}
+					cout << endl;
+				}
 			}
+			else cout << "Keinen Grapen geladen" << endl;
+			if (digraph != nullptr)
+			{
+				cout << "Ausgabe Digraph" << endl;
+				vector<DirectedEdge> adj;
+
+				for (int i = 0; i < digraph->getV(); i++) {
+					adj = digraph->getAdj(i);
+					cout << i;
+					for (int j = 0; j < adj.size(); j++) {
+						cout << " -> " << adj[j].to() << " [" << adj[j].weight() << "]";
+					}
+					cout << endl;
+				}
+			}
+			else cout << "Keinen Grapen geladen" << endl;
+			
+		}else if (eingabe == "8") {
 			break;
-		case 8:
-			return 0;
+		}else{
+			cout << "?>";
+			continue;
 		}
+		cout << "?>";
 	}
+
 
 	system("PAUSE");
 	return 0;
-}
-
-void adjazenzliste(EdgeWeightedDigraph* digraph) {
-
-	if (!digraph)
-		cout << "Bitte zuerst einen Graphen laden!";
-	else {
-		vector<DirectedEdge> adj;
-
-		for (int knoten = 0; knoten < digraph->getV(); knoten++) {
-			adj = digraph->getAdj(knoten);
-			cout << knoten;
-			for (int kante = 0; kante < adj.size(); kante++) {
-				cout << " -> " << adj[kante].to() << " [" << adj[kante].weight() << "]";
-			}
-			cout << endl;
-		}
-	}
-
-
-}
-void adjazenzliste(EdgeWeightedGraph* graph) {
-	if (!graph)
-		cout << "Bitte zuerst einen Graphen laden!";
-	else {
-		vector<Edge> adj;
-
-		for (int knoten = 0; knoten < graph->getV(); knoten++) {
-			adj = graph->getAdj(knoten);
-			cout << knoten;
-			for (int kante = 0; kante < adj.size(); kante++) {
-				cout << " -> " << adj[kante].other(knoten) << " [" << adj[kante].weight() << "]";
-			}
-			cout << endl;
-		}
-	}
-	cout << endl;
-	system("pause");
-	cout << endl << endl;
 }
